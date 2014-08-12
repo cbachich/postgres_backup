@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd /Users/cbachicha/Google\ Drive/Dev/Backups/chris_laptop
+
+db_names=(library flood_development flight_logger floorplan geodata_cache library_test)
+
+for i in ${db_names[@]}; do
+  echo Cleanup and backup up database: $i
+  ls -t *_$i.sql | sed -e '1,7d' | xargs -I {} rm {}
+  pg_dump $i > `date +\%Y-\%m-\%d_\%H\%M`_$i.sql
+done
