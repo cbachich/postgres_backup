@@ -12,10 +12,13 @@ postgres_backup [options] [DATABASE_NAMES]
                         # Default: 7
 -a, [--all]             # Save all databases to a single dump file
 ````
-
 ### Example
+Generate a single backup of all your databases and keeps up to 14 of those files.
 ````
 postgres_backup --numfiles 14 -a
 ````
 
-This generates a single backup of all your databases and keeps up to 14 of those files.
+Generate a backup of two specific databases.
+````
+postgres_backup library flight_logger
+````
