@@ -1,13 +1,70 @@
 #!/bin/bash
 
-if [ ${#@} -eq 0 ]
+function usage
+{
+  echo 'Usage:'
+  echo '  daily_postgres_backup [options] [DATABASE_NAMES]'
+  echo
+  echo 'Options:'
+  echo '  -n, [--numfiles NUMBER] # Number of files to save (deletes older files)'
+  echo '                          # Default: 7'
+  echo '  -a, [--all]             # Save all databases to a single dump file'
+  echo
+  echo 'Description:'
+  echo '  This script is used to backup all or specific PostgreSQL databases'
+  echo '  from your local machine. It keeps the latest 7 files and removes'
+  echo '  older files in the same directory. The number of files it keeps can'
+  echo '  be changed in the options.'
+  echo
+  echo 'Example:'
+  echo '  daily_postgres_backup --numfiles 14 -a'
+  echo
+  echo '  This generates a single backup of all your databases and keeps up'
+  echo '  to 14 of those files.'
+}
+
+function dump_all
+{
+  echo Cleanup and backup up ALL databases
+  ls -t *_all.sql | sed -e "1,${files_to_keep}d" | xargs -I {} rm {}
+  pg_dumpall > `date +\%Y-\%m-\%d_\%H\%M\%S`_all.sql
+}
+
+function dump_specific
+{
+  echo Cleanup and backup up database: $db_name
+  ls -t *_${db_name}.sql | sed -e "1,${files_to_keep}d" | xargs -I {} rm {}
+  pg_dump $db_name > `date +\%Y-\%m-\%d_\%H\%M\%S`_${db_name}.sql
+}
+
+dump_all=
+files_to_keep=6
+
+if [ $# = 0 ]
 then
-  echo Error: At least one database name is required as an input
-  exit
+  usage
+  exit 0
 fi
 
-for i in ${@}; do
-  echo Cleanup and backup up database: $i
-  ls -t *_$i.sql | sed -e '1,7d' | xargs -I {} rm {}
-  pg_dump $i > `date +\%Y-\%m-\%d_\%H\%M`_$i.sql
+while [[ $# > 0 ]]; do
+  key="$1"
+  case $key in
+    -n | --numfiles)
+      shift
+      files_to_keep=$1
+      let "files_to_keep -= 1" # Decrement to fit the necessary input for the sed command
+      ;;
+    -a | --all)
+      dump_all
+      ;;
+    -h | --help)
+      usage
+      exit
+      ;;
+    *)
+      db_name=$1
+      dump_specific
+      ;;
+  esac
+  shift
 done
