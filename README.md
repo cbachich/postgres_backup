@@ -1,9 +1,9 @@
-# backup_postgres_databases
+# PostgreSQL Backup Script
 This script is used to backup all or specific PostgreSQL databases from your local machine. It keeps the latest 7 files and removes older files in the same directory. The number of files it keeps can be changed in the options.
 
 ### Usage
 ````
-daily_postgres_backup [options] [DATABASE_NAMES]
+psql_bkp [options] [DATABASE_NAMES]
 ````
 
 ### Options
@@ -15,7 +15,7 @@ daily_postgres_backup [options] [DATABASE_NAMES]
 
 ### Example
 ````
-daily_postgres_backup --numfiles 14 -a
+psql_bkp --numfiles 14 -a
 ````
 
 This generates a single backup of all your databases and keeps up to 14 of those files.
