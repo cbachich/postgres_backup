@@ -22,3 +22,5 @@ Generate a backup of two specific databases.
 ````
 postgres_backup library flight_logger
 ````
+### License
+MIT
