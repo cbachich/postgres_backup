@@ -3,7 +3,7 @@
 function usage
 {
   echo 'Usage:'
-  echo '  psql_bkp [options] [DATABASE_NAMES]'
+  echo '  postgres_backup [options] [DATABASE_NAMES]'
   echo
   echo 'Options:'
   echo '  -n, [--numfiles NUMBER] # Number of files to save (deletes older files)'
@@ -17,7 +17,7 @@ function usage
   echo '  be changed in the options.'
   echo
   echo 'Example:'
-  echo '  psql_bkp --numfiles 14 -a'
+  echo '  postgres_backup --numfiles 14 -a'
   echo
   echo '  This generates a single backup of all your databases and keeps up'
   echo '  to 14 of those files.'

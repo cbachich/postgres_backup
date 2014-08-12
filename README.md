@@ -3,7 +3,7 @@ This script is used to backup all or specific PostgreSQL databases from your loc
 
 ### Usage
 ````
-psql_bkp [options] [DATABASE_NAMES]
+postgres_backup [options] [DATABASE_NAMES]
 ````
 
 ### Options
@@ -15,7 +15,7 @@ psql_bkp [options] [DATABASE_NAMES]
 
 ### Example
 ````
-psql_bkp --numfiles 14 -a
+postgres_backup --numfiles 14 -a
 ````
 
 This generates a single backup of all your databases and keeps up to 14 of those files.
